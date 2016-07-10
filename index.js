@@ -1,9 +1,9 @@
-const React = require( 'react' );
-const splitTestScript = require( './lib/splitTestScript' );
-const Experiment = require( './lib/experiment' );
-const Variation = require( './lib/variation' );
+var React = require( 'react' );
+var splitTestScript = require( './lib/splitTestScript' );
+var Experiment = require( './lib/experiment' );
+var Variation = require( './lib/variation' );
 
 module.exports = {
-  Experiment,
-  Variation
+  Experiment: Experiment,
+  Variation: Variation
 };
