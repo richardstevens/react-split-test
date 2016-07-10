@@ -6,9 +6,7 @@ dependencies:
     - node_modules
   override:
     - npm install -g npm@3.9.0
-install:
-  override:
-    - npm run install
+    - npm install
 test:
   override:
     - npm run ci
