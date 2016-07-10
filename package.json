@@ -1,0 +1,40 @@
+{
+  "name": "react-split-test",
+  "version": "1.0.0",
+  "description": "Split testing using React",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": "4.4.4",
+    "npm": "3.9.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardstevens/react-split-test.git"
+  },
+  "keywords": [
+    "ab",
+    "split",
+    "test",
+    "splittest",
+    "react",
+    "multivarient",
+    "testing"
+  ],
+  "author": "Richard Stevens <rsrichardstevens@googlemail.com> (https://github.com/richardstevens/whynopadlock)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/richardstevens/react-split-test/issues"
+  },
+  "homepage": "https://github.com/richardstevens/react-split-test#readme",
+  "dependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "react": "^15.2.1",
+    "react-cookie": "^0.4.7"
+  },
+  "devDependencies": {}
+}
