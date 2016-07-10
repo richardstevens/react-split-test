@@ -4,7 +4,9 @@
   "description": "Split testing using React",
   "main": "index.js",
   "scripts": {
-    "ci": "echo \"all good\""
+    "build": "babel --presets es2015 --plugins transform-react-jsx ./src --out-dir ./lib",
+    "ci": "echo \"all good\"",
+    "prepublish": "npm run build"
   },
   "engines": {
     "node": "4.4.4",

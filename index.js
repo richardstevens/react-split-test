@@ -1,7 +1,7 @@
 const React = require( 'react' );
-const splitTestScript = require( './src/splitTestScript.jsx' );
-const Experiment = require( './src/experiment.jsx' );
-const Variation = require( './src/variation.jsx' );
+const splitTestScript = require( './lib/splitTestScript' );
+const Experiment = require( './lib/experiment' );
+const Variation = require( './lib/variation' );
 
 module.exports = {
   Experiment,

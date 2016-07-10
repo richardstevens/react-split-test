@@ -6,7 +6,7 @@ npm-debug.log*
 # IDE files/directories
 .DS_Store
 .ideas
-lib
+src
 
 # Runtime data
 pids
