@@ -3,7 +3,19 @@ const SplitTestScript = require( './splitTestScript' );
 const Variation = require( './variation' );
 const cookie = require( 'react-cookie' );
 
+const { string } = React.PropTypes;
+
 const Experiment = React.createClass({
+  propTypes: {
+    cookieName: string
+  },
+
+  getDefaultProps( ) {
+    return {
+      cookieName: 'variation'
+    };
+  },
+
   getInitialState( ) {
     return {
       variation: false,
@@ -47,7 +59,8 @@ const Experiment = React.createClass({
   },
 
   componentWillMount( ) {
-    this.state.variation = cookie.load( 'variation' );
+    const { cookieName } = this.props;
+    this.state.variation = cookie.load( cookieName );
     this.state.variations = this.getVariations( );
   },
 
@@ -58,6 +71,7 @@ const Experiment = React.createClass({
   },
 
   render( ) {
+    const { cookieName } = this.props;
     const winner = this.getWinner( );
     if ( !winner || !winner.children ) {
       throw( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
@@ -66,7 +80,7 @@ const Experiment = React.createClass({
 
     return (
       <div>
-        <SplitTestScript variations={ this.state.variations } />
+        <SplitTestScript cookieName={ cookieName } variations={ this.state.variations } />
         <Variation children={ winner.children } />
       </div>
     );

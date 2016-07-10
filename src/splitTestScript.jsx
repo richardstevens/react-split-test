@@ -3,10 +3,10 @@ const React = require( 'react' );
 const cookieLogic = `
   for( var i = 0; i < cookies.length; i++ ) {
     var cookie = cookies[i].split( '=' );
-    if ( cookie[0] !== 'variation' ) continue;
+    if ( cookie[0] !== cookieName ) continue;
     variation = cookie[1];
   }
-  document.cookie = 'variation=' + variation;
+  document.cookie = cookieName + '=' + variation;
 `;
 const showVariation = `
   if ( variation && variation !== 'false' ) {
@@ -15,10 +15,17 @@ const showVariation = `
   }
 `;
 
-const { array } = React.PropTypes;
+const { array, string } = React.PropTypes;
 const SplitTestScript = React.createClass({
   propTypes: {
-    variations: array.isRequired
+    variations: array.isRequired,
+    cookieName: string.isRequired
+  },
+
+  getDefaultProps( ) {
+    return {
+      cookieName: 'variation'
+    };
   },
 
   sortVariations( ) {
@@ -38,9 +45,11 @@ const SplitTestScript = React.createClass({
   },
 
   getScript( ) {
+    const { cookieName } = this.props;
     const variations = this.sortVariations( );
     let script = [ ];
     script.push( 'var cookies = document.cookie.split( \'; \');' );
+    script.push( 'var cookieName = "' + cookieName + '";' );
     script.push( 'var variation = false;' );
     script.push( 'var percent = Math.random( );' );
     variations.map( item => {
