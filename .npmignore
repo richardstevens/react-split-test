@@ -7,6 +7,11 @@ npm-debug.log*
 .DS_Store
 .ideas
 src
+.mocha-setup.js
+.eslintrc.json
+circle.yml
+.gitignore
+test
 
 # Runtime data
 pids

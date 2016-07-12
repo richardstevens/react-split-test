@@ -1,11 +1,13 @@
 {
   "name": "react-split-test",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Split testing using React",
   "main": "index.js",
   "scripts": {
     "build": "babel --presets es2015 --plugins transform-react-jsx ./src --out-dir ./lib",
-    "ci": "echo \"all good\"",
+    "test": "babel-node node_modules/.bin/_mocha .mocha-setup.js test/**/*.js",
+    "lint": "eslint src/** test/** && echo '...Passed'",
+    "ci": "npm run lint && npm run test",
     "prepublish": "npm run build"
   },
   "engines": {
@@ -18,12 +20,16 @@
   },
   "keywords": [
     "ab",
-    "split",
-    "test",
+    "split test",
     "splittest",
     "react",
     "multivarient",
-    "testing"
+    "multi-varient",
+    "multi varient",
+    "test",
+    "testing",
+    "a/b",
+    "A/B testing"
   ],
   "author": "Richard Stevens <rsrichardstevens@googlemail.com> (https://github.com/richardstevens/whynopadlock)",
   "license": "MIT",
@@ -39,6 +45,15 @@
     "react-cookie": "^0.4.7"
   },
   "devDependencies": {
-    "publish": "^0.6.0"
+    "chai": "^3.5.0",
+    "dirty-chai": "^1.2.2",
+    "enzyme": "^2.4.1",
+    "eslint": "^3.0.1",
+    "eslint-plugin-react": "^5.2.2",
+    "jsdom": "^9.4.1",
+    "mocha": "^2.5.3",
+    "publish": "^0.6.0",
+    "react-addons-test-utils": "^15.2.1",
+    "react-dom": "^15.2.1"
   }
 }

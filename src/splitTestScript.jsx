@@ -1,3 +1,5 @@
+'use strict';
+
 const React = require( 'react' );
 
 const cookieLogic = `
@@ -64,6 +66,6 @@ const SplitTestScript = React.createClass({
   render( ) {
     return <script dangerouslySetInnerHTML={{ __html: this.getScript( ) }} />;
   }
-})
+});
 
 module.exports = SplitTestScript;

@@ -1,13 +1,16 @@
+'use strict';
+
 const React = require( 'react' );
 const SplitTestScript = require( './splitTestScript' );
 const Variation = require( './variation' );
 const cookie = require( 'react-cookie' );
 
-const { string } = React.PropTypes;
+const { string, node } = React.PropTypes;
 
 const Experiment = React.createClass({
   propTypes: {
-    cookieName: string
+    cookieName: string,
+    children: node
   },
 
   getDefaultProps( ) {
@@ -49,7 +52,7 @@ const Experiment = React.createClass({
   },
 
   convert( str ) {
-    if ( !str ) return;
+    if ( !str ) return '';
     return str.toString( ).toLowerCase( );
   },
 
@@ -65,7 +68,7 @@ const Experiment = React.createClass({
   },
 
   getWinner( ) {
-    const { variation, variations } = this.state;
+    const { variation } = this.state;
     if ( !variation || variation === 'false' ) return this.getOriginal( );
     return this.getVariation( );
   },
@@ -74,8 +77,7 @@ const Experiment = React.createClass({
     const { cookieName } = this.props;
     const winner = this.getWinner( );
     if ( !winner || !winner.children ) {
-      throw( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
-      return null;
+      throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
     }
 
     return (
