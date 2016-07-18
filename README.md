@@ -42,3 +42,28 @@ To use a custom cookie name for variations you can specify it inside the `<Exper
   </Variation>
 </Experiment>
 ```
+
+##### Tracking winners
+_`Default: null`_  
+To use a custom callback function for tracking winning variations you can specify it inside the `<Experiment />` tag.
+
+```js
+variationWinner( variation ) {
+  if ( typeof ga === 'undefined' ) return;
+  ga( 'send', 'variations', 'variation_hit:' + variation );
+},
+//...
+render( ) {
+//...
+<Experiment cookieName="customVariationCookie" callBack={ this.variationWinner }>
+  <Variation id="A" percent={ 33 }>
+    <div>Version A</div>
+  </Variation>
+  <Variation id="B" percent={ 33 }>
+    <div>Version B</div>
+  </Variation>
+  <Variation id="original">
+    <div>Original Version</div>
+  </Variation>
+</Experiment>
+```

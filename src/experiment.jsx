@@ -4,12 +4,13 @@ const React = require( 'react' );
 const SplitTestScript = require( './splitTestScript' );
 const cookie = require( 'react-cookie' );
 
-const { string, node } = React.PropTypes;
+const { string, node, func } = React.PropTypes;
 
 const Experiment = React.createClass({
   propTypes: {
     cookieName: string,
-    children: node
+    children: node,
+    callBack: func
   },
 
   getDefaultProps( ) {
@@ -76,11 +77,12 @@ const Experiment = React.createClass({
   },
 
   render( ) {
-    const { cookieName } = this.props;
+    const { cookieName, callBack } = this.props;
     const winner = this.getWinner( );
     if ( !winner ) {
       throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
     }
+    if ( callBack instanceof Function ) callBack( winner.props.name || winner.props.id );
 
     return (
       <div>
