@@ -28,8 +28,11 @@ const Experiment = React.createClass({
   getVariations( ) {
     return React.Children.map( this.props.children,
       child => {
-        const childClone = React.cloneElement(child, this.props);
-        return childClone.props;
+        let parentProps = { };
+        for( let key in this.props ) {
+          if ( key !== 'children' ) parentProps[ key ] = this.props[ key ];
+        }
+        return React.cloneElement(child, parentProps);
       }
     );
   },
@@ -37,8 +40,8 @@ const Experiment = React.createClass({
   getOriginal( ) {
     const { variations } = this.state;
     return variations.reduce( ( total, item ) => {
-      if ( item.id && this.convert( item.id ) === 'original' ) return item;
-      if ( !item.percent ) return item;
+      if ( item.props && item.props.id && this.convert( item.props.id ) === 'original' ) return item;
+      if ( !item.props.percent ) return item;
     }, [ ]);
   },
 
@@ -46,7 +49,7 @@ const Experiment = React.createClass({
     const { variations, variation } = this.state;
     let winner = this.getOriginal( );
     variations.reduce( ( total, item ) => {
-      if ( this.convert( item.id ) === this.convert( variation )) winner = item;
+      if ( this.convert( item.props.id ) === this.convert( variation )) winner = item;
     }, [ ]);
     return winner;
   },
@@ -76,14 +79,14 @@ const Experiment = React.createClass({
   render( ) {
     const { cookieName } = this.props;
     const winner = this.getWinner( );
-    if ( !winner || !winner.children ) {
+    if ( !winner ) {
       throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
     }
 
     return (
       <div>
         <SplitTestScript cookieName={ cookieName } variations={ this.state.variations } />
-        {winner.children}
+        { winner }
       </div>
     );
   }
