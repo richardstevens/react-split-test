@@ -4,12 +4,13 @@ const React = require( 'react' );
 const SplitTestScript = require( './splitTestScript' );
 const cookie = require( 'react-cookie' );
 
-const { string, node } = React.PropTypes;
+const { string, node, func } = React.PropTypes;
 
 const Experiment = React.createClass({
   propTypes: {
     cookieName: string,
-    children: node
+    children: node,
+    callBack: func
   },
 
   getDefaultProps( ) {
@@ -22,6 +23,29 @@ const Experiment = React.createClass({
     return {
       variation: false
     };
+  },
+
+  noVariations( ) {
+    this.setState({
+      variation: false
+    });
+  },
+
+  sortVariations( ) {
+    const variations = this.getVariations( );
+    let total = 0;
+    return variations.map( item => {
+      if ( !Number( item.props.percent )) return false;
+      total += ( Number( item.props.percent ) / 100 ); // Lets convert percent to Math.random
+      if ( total > 1 ) total = 1; // Cant get more than 100% !
+      return {
+        name: item.props.name || '',
+        id: item.props.id || '',
+        percent: total
+      };
+    }).filter( item => item ).sort( ( a, b ) => { // Right now we want highest first
+      return a.percent < b.percent;
+    });
   },
 
   getVariations( ) {
@@ -71,20 +95,22 @@ const Experiment = React.createClass({
 
   getWinner( ) {
     const { variation } = this.state;
-    if ( !variation || variation === 'false' ) return this.getOriginal( );
+    const variations = this.sortVariations( );
+    if ( !variations.length || !variation || variation === 'false' ) return this.getOriginal( );
     return this.getVariation( );
   },
 
   render( ) {
-    const { cookieName } = this.props;
+    const { cookieName, callBack } = this.props;
     const winner = this.getWinner( );
     if ( !winner ) {
-      throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
+      throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Something went wrong
     }
+    if ( callBack instanceof Function ) callBack( winner.props.name || winner.props.id );
 
     return (
       <div>
-        <SplitTestScript cookieName={ cookieName } variations={ this.getVariations( ) } />
+        <SplitTestScript cookieName={ cookieName } variations={ this.sortVariations( ) } />
         { winner }
       </div>
     );
