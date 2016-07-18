@@ -34,11 +34,16 @@ const SplitTestScript = React.createClass({
     const { variations } = this.props;
     let total = 0;
     return variations.map( item => {
-      total += ( item.percent / 100 ); // Lets convert percent to Math.random
+      if ( !Number( item.props.percent )) return {
+        name: item.props.name || '',
+        id: item.props.id || '',
+        percent: false
+      };
+      total += ( Number( item.props.percent ) / 100 ); // Lets convert percent to Math.random
       if ( total > 1 ) total = 1; // Cant get more than 100% !
       return {
-        name: item.name || '',
-        id: item.id || '',
+        name: item.props.name || '',
+        id: item.props.id || '',
         percent: total
       };
     }).sort( ( a, b ) => { // Right now we want highest first
@@ -56,7 +61,7 @@ const SplitTestScript = React.createClass({
     script.push( 'var percent = Math.random( );' );
     variations.map( item => {
       if ( !item.percent ) return;
-      script.push( 'if ( percent <= ' + item.percent + ' ) variation = "' + item.id + '";' );
+      script.push( 'if ( percent < ' + item.percent + ' ) variation = "' + item.id + '";' );
     });
     script.push( cookieLogic );
     script.push( showVariation );
