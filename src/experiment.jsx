@@ -20,8 +20,7 @@ const Experiment = React.createClass({
 
   getInitialState( ) {
     return {
-      variation: false,
-      variations: null
+      variation: false
     };
   },
 
@@ -38,7 +37,7 @@ const Experiment = React.createClass({
   },
 
   getOriginal( ) {
-    const { variations } = this.state;
+    const variations = this.getVariations( );
     return variations.reduce( ( total, item ) => {
       if ( item.props && item.props.id && this.convert( item.props.id ) === 'original' ) return item;
       if ( !item.props.percent ) return item;
@@ -46,7 +45,8 @@ const Experiment = React.createClass({
   },
 
   getVariation( ) {
-    const { variations, variation } = this.state;
+    const { variation } = this.state;
+    const variations = this.getVariations( );
     let winner = this.getOriginal( );
     variations.reduce( ( total, item ) => {
       if ( this.convert( item.props.id ) === this.convert( variation )) winner = item;
@@ -67,7 +67,6 @@ const Experiment = React.createClass({
   componentWillMount( ) {
     const { cookieName } = this.props;
     this.state.variation = cookie.load( cookieName );
-    this.state.variations = this.getVariations( );
   },
 
   getWinner( ) {
@@ -85,7 +84,7 @@ const Experiment = React.createClass({
 
     return (
       <div>
-        <SplitTestScript cookieName={ cookieName } variations={ this.state.variations } />
+        <SplitTestScript cookieName={ cookieName } variations={ this.getVariations( ) } />
         { winner }
       </div>
     );

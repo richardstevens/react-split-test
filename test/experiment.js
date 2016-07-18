@@ -20,6 +20,7 @@ describe( '<Experiment />', ( ) => {
   });
   it( 'shows original by default', ( ) => {
     expect( component.find( 'div' ).first( ).text( ) ).to.contains( 'Original Version' );
+    expect( component.find( 'div' ).first( ).text( ) ).to.not.contains( 'Version A' );
   });
 
   describe( 'Original', ( ) => {
@@ -30,6 +31,7 @@ describe( '<Experiment />', ( ) => {
 
     it( 'shows original', ( ) => {
       expect( component.find( 'div' ).first( ).text( ) ).to.contains( 'Original Version' );
+      expect( component.find( 'div' ).first( ).text( ) ).to.not.contains( 'Version A' );
     });
   });
 
@@ -39,8 +41,9 @@ describe( '<Experiment />', ( ) => {
       component = mount( <TestExperiment /> );
     });
 
-    it( 'shows Variation B', ( ) => {
+    it( 'shows Variation A', ( ) => {
       expect( component.find( 'div' ).first( ).text( ) ).to.contains( 'Version A' );
+      expect( component.find( 'div' ).first( ).text( ) ).to.not.contains( 'Version B' );
     });
   });
 
@@ -52,6 +55,7 @@ describe( '<Experiment />', ( ) => {
 
     it( 'shows Variation B', ( ) => {
       expect( component.find( 'div' ).first( ).text( ) ).to.contains( 'Version B' );
+      expect( component.find( 'div' ).first( ).text( ) ).to.not.contains( 'Version A' );
     });
   });
 
@@ -63,6 +67,7 @@ describe( '<Experiment />', ( ) => {
 
     it( 'shows original', ( ) => {
       expect( component.find( 'div' ).first( ).text( ) ).to.contains( 'Original Version' );
+      expect( component.find( 'div' ).first( ).text( ) ).to.not.contains( 'Version A' );
     });
   });
 });
