@@ -2,7 +2,6 @@
 
 const React = require( 'react' );
 const SplitTestScript = require( './splitTestScript' );
-const Variation = require( './variation' );
 const cookie = require( 'react-cookie' );
 
 const { string, node } = React.PropTypes;
@@ -28,9 +27,7 @@ const Experiment = React.createClass({
 
   getVariations( ) {
     return React.Children.map( this.props.children,
-      child => {
-        return child.props;
-      }
+      child => React.cloneElement(child, this.props)
     );
   },
 
@@ -76,14 +73,14 @@ const Experiment = React.createClass({
   render( ) {
     const { cookieName } = this.props;
     const winner = this.getWinner( );
-    if ( !winner || !winner.children ) {
+    if ( !winner ) {
       throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
     }
 
     return (
       <div>
         <SplitTestScript cookieName={ cookieName } variations={ this.state.variations } />
-        <Variation children={ winner.children } { ...this.props } />
+        <winner { ...this.props } />
       </div>
     );
   }

@@ -12,7 +12,7 @@ describe( '<Experiment />', ( ) => {
   let component;
 
   before( ( ) => {
-    component = mount( <TestExperiment /> );
+    component = mount( <TestExperiment foo="bar" /> );
   });
 
   it( 'is an element', ( ) => {
