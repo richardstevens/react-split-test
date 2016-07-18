@@ -2,7 +2,6 @@
 
 const React = require( 'react' );
 const SplitTestScript = require( './splitTestScript' );
-const Variation = require( './variation' );
 const cookie = require( 'react-cookie' );
 
 const { string, node } = React.PropTypes;
@@ -21,32 +20,36 @@ const Experiment = React.createClass({
 
   getInitialState( ) {
     return {
-      variation: false,
-      variations: null
+      variation: false
     };
   },
 
   getVariations( ) {
     return React.Children.map( this.props.children,
       child => {
-        return child.props;
+        let parentProps = { };
+        for( let key in this.props ) {
+          if ( key !== 'children' ) parentProps[ key ] = this.props[ key ];
+        }
+        return React.cloneElement(child, parentProps);
       }
     );
   },
 
   getOriginal( ) {
-    const { variations } = this.state;
+    const variations = this.getVariations( );
     return variations.reduce( ( total, item ) => {
-      if ( item.id && this.convert( item.id ) === 'original' ) return item;
-      if ( !item.percent ) return item;
+      if ( item.props && item.props.id && this.convert( item.props.id ) === 'original' ) return item;
+      if ( !item.props.percent ) return item;
     }, [ ]);
   },
 
   getVariation( ) {
-    const { variations, variation } = this.state;
+    const { variation } = this.state;
+    const variations = this.getVariations( );
     let winner = this.getOriginal( );
     variations.reduce( ( total, item ) => {
-      if ( this.convert( item.id ) === this.convert( variation )) winner = item;
+      if ( this.convert( item.props.id ) === this.convert( variation )) winner = item;
     }, [ ]);
     return winner;
   },
@@ -64,7 +67,6 @@ const Experiment = React.createClass({
   componentWillMount( ) {
     const { cookieName } = this.props;
     this.state.variation = cookie.load( cookieName );
-    this.state.variations = this.getVariations( );
   },
 
   getWinner( ) {
@@ -76,14 +78,14 @@ const Experiment = React.createClass({
   render( ) {
     const { cookieName } = this.props;
     const winner = this.getWinner( );
-    if ( !winner || !winner.children ) {
+    if ( !winner ) {
       throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
     }
 
     return (
       <div>
-        <SplitTestScript cookieName={ cookieName } variations={ this.state.variations } />
-        <Variation children={ winner.children } />
+        <SplitTestScript cookieName={ cookieName } variations={ this.getVariations( ) } />
+        { winner }
       </div>
     );
   }
