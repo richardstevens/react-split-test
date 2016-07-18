@@ -27,7 +27,10 @@ const Experiment = React.createClass({
 
   getVariations( ) {
     return React.Children.map( this.props.children,
-      child => React.cloneElement(child, this.props)
+      child => {
+        const childClone = React.cloneElement(child, this.props);
+        return childClone.props;
+      }
     );
   },
 
