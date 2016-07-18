@@ -30,46 +30,29 @@ const SplitTestScript = React.createClass({
     };
   },
 
-  sortVariations( ) {
-    const { variations } = this.props;
-    let total = 0;
-    return variations.map( item => {
-      if ( !Number( item.props.percent )) return {
-        name: item.props.name || '',
-        id: item.props.id || '',
-        percent: false
-      };
-      total += ( Number( item.props.percent ) / 100 ); // Lets convert percent to Math.random
-      if ( total > 1 ) total = 1; // Cant get more than 100% !
-      return {
-        name: item.props.name || '',
-        id: item.props.id || '',
-        percent: total
-      };
-    }).sort( ( a, b ) => { // Right now we want highest first
-      return a.percent < b.percent;
-    });
-  },
-
   getScript( ) {
-    const { cookieName } = this.props;
-    const variations = this.sortVariations( );
+    const { cookieName, variations } = this.props;
     let script = [ ];
-    script.push( 'var cookies = document.cookie.split( \'; \');' );
-    script.push( 'var cookieName = "' + cookieName + '";' );
+    const getCookieName = 'var cookies = document.cookie.split( \'; \');var cookieName = "' + cookieName + '";';
     script.push( 'var variation = false;' );
     script.push( 'var percent = Math.random( );' );
+    const scriptLength = script.length;
     variations.map( item => {
       if ( !item.percent ) return;
       script.push( 'if ( percent < ' + item.percent + ' ) variation = "' + item.id + '";' );
     });
+    if ( script.length === scriptLength ) {
+      return;
+    }
     script.push( cookieLogic );
     script.push( showVariation );
-    return script.join( '' );
+    return getCookieName + script.join( '' );
   },
 
   render( ) {
-    return <script dangerouslySetInnerHTML={{ __html: this.getScript( ) }} />;
+    const script = this.getScript( );
+    if ( !script ) return null;
+    return <script dangerouslySetInnerHTML={{ __html: script }} />;
   }
 });
 
