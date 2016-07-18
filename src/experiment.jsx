@@ -76,14 +76,14 @@ const Experiment = React.createClass({
   render( ) {
     const { cookieName } = this.props;
     const winner = this.getWinner( );
-    if ( !winner ) {
+    if ( !winner || !winner.children ) {
       throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Somethign went wrong
     }
 
     return (
       <div>
         <SplitTestScript cookieName={ cookieName } variations={ this.state.variations } />
-        <winner { ...this.props } />
+        {winner.children}
       </div>
     );
   }
