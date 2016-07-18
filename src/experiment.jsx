@@ -83,7 +83,7 @@ const Experiment = React.createClass({
     return (
       <div>
         <SplitTestScript cookieName={ cookieName } variations={ this.state.variations } />
-        <Variation children={ winner.children } />
+        <Variation children={ winner.children } { ...this.props } />
       </div>
     );
   }
