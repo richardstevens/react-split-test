@@ -5,7 +5,7 @@ Install the package with `npm i --save react-split-test`
 ##### Usage
 To use this plugin you will need to get the components from the plugin using react import/require.
 ```
-const { Experiement, Variation } = require( 'react-split-test' );
+const { Experiment, Variation } = require( 'react-split-test' );
 ```
 
 To begin you will need to wrap all your variations in an `<Experiment>` tag.  
@@ -24,6 +24,27 @@ Variations then can sit within this using `<Variation />`.
   </Variation>
 </Experiment>
 ```
+
+If you wanted to add conditions to the split test then you can do this before the `<Experiment />` tag and the result from these conditions can be to alter the percent for each `<Variation percent={ textPercent } />`.
+
+```js
+let testPercent = ConditionA === true ? 50 : 33;
+if ( !ConditionB ) testPercent = 0;
+
+<Experiment>
+  <Variation id="A" percent={ textPercent }>
+    <div>Version A</div>
+  </Variation>
+  <Variation id="B" percent={ textPercent }>
+    <div>Version B</div>
+  </Variation>
+  <Variation id="original">
+    <div>Original Version</div>
+  </Variation>
+</Experiment>
+```
+
+### Config
 
 ##### Cookie to use
 _`Default: 'variation'`_  

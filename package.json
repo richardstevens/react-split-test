@@ -1,6 +1,6 @@
 {
   "name": "react-split-test",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Split testing using React",
   "main": "index.js",
   "scripts": {
