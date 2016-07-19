@@ -25,16 +25,17 @@ Variations then can sit within this using `<Variation />`.
 </Experiment>
 ```
 
-If you wanted to add conditions to the split test then you can do this before the `<Experiment />` tag and the result from these conditions can be to alter the percent for each `<Variationpercent={ textPercent } />`.
+If you wanted to add conditions to the split test then you can do this before the `<Experiment />` tag and the result from these conditions can be to alter the percent for each `<Variation percent={ textPercent } />`.
 
 ```js
 let testPercent = ConditionA === true ? 50 : 33;
 if ( !ConditionB ) testPercent = 0;
+
 <Experiment>
-  <Variation id="A" percent={ 33 }>
+  <Variation id="A" percent={ textPercent }>
     <div>Version A</div>
   </Variation>
-  <Variation id="B" percent={ 33 }>
+  <Variation id="B" percent={ textPercent }>
     <div>Version B</div>
   </Variation>
   <Variation id="original">
