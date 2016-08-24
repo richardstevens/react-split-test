@@ -9,6 +9,7 @@ const { string, node, func } = React.PropTypes;
 const Experiment = React.createClass({
   propTypes: {
     cookieName: string,
+    experimentWrappingClass: string,
     children: node,
     callBack: func
   },
@@ -101,7 +102,7 @@ const Experiment = React.createClass({
   },
 
   render( ) {
-    const { cookieName, callBack } = this.props;
+    const { cookieName, callBack, experimentWrappingClass } = this.props;
     const winner = this.getWinner( );
     if ( !winner ) {
       throw ( 'ERROR: Experiments had no Variations in it.' ); // No variations? Something went wrong
@@ -109,7 +110,7 @@ const Experiment = React.createClass({
     if ( callBack instanceof Function ) callBack( winner.props.name || winner.props.id );
 
     return (
-      <div>
+      <div className={experimentWrappingClass}>
         <SplitTestScript cookieName={ cookieName } variations={ this.sortVariations( ) } />
         { winner }
       </div>

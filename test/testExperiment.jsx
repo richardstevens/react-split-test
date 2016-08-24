@@ -7,7 +7,7 @@ const Variation = require( '../src/variation.jsx' );
 const TestExperiment = React.createClass({
   render( ) {
     return (
-      <Experiment cookieName="customVariationCookie" { ...this.props }>
+      <Experiment cookieName="customVariationCookie" experimentWrappingClass="foo-wrap" { ...this.props }>
         <Variation id="A" percent={ 33 }>
           <div>Version A</div>
         </Variation>

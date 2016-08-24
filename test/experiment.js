@@ -22,6 +22,10 @@ describe( '<Experiment />', ( ) => {
     expect( component.find( 'div' ).first( ).text( ) ).to.contains( 'Original Version' );
     expect( component.find( 'div' ).first( ).text( ) ).to.not.contains( 'Version A' );
   });
+  it( 'renders the experiemnt wrapping class when passed in through prop', ( ) => {
+    expect( component.find( 'div' ).first( ).hasClass('foo-wrap')).to.equal(true);
+  });
+
 
   describe( 'Original', ( ) => {
     before( ( ) => {
